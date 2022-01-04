@@ -4,7 +4,8 @@
       <h1>TODO</h1>
       <form @submit.prevent="addTodo">
         <div class="newTodo">
-          <div class="mouse"
+          <div
+            class="mouse"
             :class="{
               unSelect: (todos.done = true),
               select: (todos.done = true),
@@ -26,14 +27,19 @@
       <hr />
       <div class="todos shadow">
         <div class="todo" v-for="(todo, index) in todos" :key="todo.done">
-          <div class="mouse"
+          <div
+            class="mouse"
             :class="{
               unSelect: (todos.done = false),
               select: (todos.done = true),
             }"
             @click="todoFinish(todo)"
           ></div>
-          <h2 :class="{ done: todo.done }" @click="todoFinish(todo)" class="content mouse ">
+          <h2
+            :class="{ done: todo.done }"
+            @click="todoFinish(todo)"
+            class="content mouse"
+          >
             {{ todo.content }}
           </h2>
           <div class="unSelect mouse" @click="removeTodo(index)"></div>
@@ -63,6 +69,15 @@ export default {
     let auto = ref(null);
 
     onMounted(() => auto.value.focus());
+    onMounted(() => {
+      if (localStorage.getItem("manTodos")) {
+        let manTodos = JSON.parse(localStorage.getItem("manTodos"));
+        manTodos.forEach((todo) => {
+          todos.value.push(todo);
+        });
+      }
+    });
+
     function addTodo() {
       console.log(newTodo.value);
       if (newTodo.value.trim()) {
@@ -73,19 +88,24 @@ export default {
       }
 
       newTodo.value = "";
+      localStorage.setItem("manTodos", JSON.stringify(todos.value));
     }
     function todoFinish(todo) {
       todo.done = !todo.done;
       console.log(todo.done);
+      localStorage.setItem("manTodos", JSON.stringify(todos.value));
     }
     function removeTodo(index) {
       todos.value.splice(index, 1);
+      localStorage.setItem("manTodos", JSON.stringify(todos.value));
     }
     function completeAll() {
       todos.value.forEach((todo) => (todo.done = !todo.done));
+      localStorage.setItem("manTodos", JSON.stringify(todos.value));
     }
     function removeAll() {
       todos.value = [];
+      localStorage.setItem("manTodos", JSON.stringify(todos.value));
     }
 
     return {
