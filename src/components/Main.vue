@@ -4,7 +4,7 @@
       <h1>TODO</h1>
       <form @submit.prevent="addTodo">
         <div class="newTodo">
-          <div
+          <div class="mouse"
             :class="{
               unSelect: (todos.done = true),
               select: (todos.done = true),
@@ -20,27 +20,27 @@
             v-model="newTodo"
             ref="auto"
           />
-          <div class="unSelect" @click="removeAll"></div>
+          <div class="unSelect mouse" @click="removeAll"></div>
         </div>
       </form>
       <hr />
       <div class="todos shadow">
         <div class="todo" v-for="(todo, index) in todos" :key="todo.done">
-          <div
+          <div class="mouse"
             :class="{
               unSelect: (todos.done = false),
               select: (todos.done = true),
             }"
             @click="todoFinish(todo)"
           ></div>
-          <h2 :class="{ done: todo.done }" class="content">
+          <h2 :class="{ done: todo.done }" @click="todoFinish(todo)" class="content mouse ">
             {{ todo.content }}
           </h2>
-          <div class="unSelect" @click="removeTodo(index)"></div>
+          <div class="unSelect mouse" @click="removeTodo(index)"></div>
         </div>
       </div>
       <div class="footer">
-        <div class="button">{{ todos.length }} todos</div>
+        <div class="button mouse">{{ todos.length }} todos</div>
         <!-- <div class="filter">
           <div class="all button">All</div>
           <div class="active button">Active</div>
@@ -118,7 +118,6 @@ export default {
   text-decoration: line-through;
   text-decoration-style: solid;
   text-decoration-thickness: 3px;
-  background-color: black;
 }
 .h1 {
   text-align: left;
